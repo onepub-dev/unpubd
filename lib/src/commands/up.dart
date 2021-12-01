@@ -52,6 +52,11 @@ class UpCommand extends Command<void> {
       ..append(
           'MONGO_INITDB_ROOT_PASSWORD=${UnpubdSettings().mongoRootPassword}')
       ..append('MONGO_INITDB_DATABASE=${UnpubdSettings().mongoDatabase}')
+      ..append('MONGO_DATABASE=${UnpubdSettings().mongoDatabase}')
+      ..append('MONGO_USERNAME=${UnpubdSettings().mongoUsername}')
+      ..append('MONGO_PASSWORD=${UnpubdSettings().mongoPassword}')
+      ..append('MONGO_HOST=mongodb')
+      ..append('MONGO_PORT=27017')
       ..append('TZ=${DateTime.now().timeZoneName}')
       ..append('UNPUBD_HOST=${UnpubdSettings().unpubHost}')
       ..append('UNPUBD_PORT=${UnpubdSettings().unpubPort}');

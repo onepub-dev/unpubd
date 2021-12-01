@@ -41,8 +41,8 @@ class UnpubdSettings {
   static late final pathToDockerfile =
       join(UnpubdSettings.pathToSettingsDir, 'Dockerfile');
 
-  static late final String pathToPackages =
-      join(UnpubdSettings.pathToSettingsDir, 'packages');
+  /// path within the docker container.
+  static late final String pathToPackages = join(rootPath, 'unpub', 'packages');
 
   static late final String pathToDockerCompose =
       join(UnpubdSettings.pathToSettingsDir, 'docker-compose.yaml');

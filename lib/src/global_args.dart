@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:dcli/dcli.dart';
-import 'package:unpubd/src/commands/pull.dart';
+import 'commands/pull.dart';
 import 'commands/config.dart';
 
 import 'commands/down.dart';
 import 'commands/install.dart';
+import 'commands/run.dart';
 import 'commands/up.dart';
 import 'util/log.dart';
 
@@ -64,7 +65,8 @@ You can alter the config by running 'unpubd config' or by modifying ~/.unpubd/un
       ..addCommand(UpCommand())
       ..addCommand(DownCommand())
       ..addCommand(InstallCommand())
-      ..addCommand(PullCommand());
+      ..addCommand(PullCommand())
+      ..addCommand(RunCommand());
   }
 
   void parse() {

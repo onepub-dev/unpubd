@@ -47,7 +47,7 @@ class RunCommand extends Command<void> {
   }
 
   Future<Db> waitForMongo() async {
-    late final Db db;
+    Db? db;
     var connected = false;
     while (!connected) {
       try {
@@ -58,31 +58,35 @@ class RunCommand extends Command<void> {
         // ignore: avoid_catches_without_on_clauses
       } catch (e) {
         print('waiting for mongodb to start: $e');
+        sleep(2);
       }
     }
 
-    return db;
+    return db!;
   }
 
   String mongoUri() {
-    final database = UnpubdSettings().mongoDatabase;
+    final database = env['MONGO_DATABASE'];
     return 'mongodb://mongodb:27017/$database';
   }
 
   String mongoRootUri() {
-    final database = env['MONGO_INITDB_DATABASE'];
-    final rootPassword = env['MONGO_INITDB_ROOT_PASSWORD'];
+    final database = env['MONGO_DATABASE'];
+    final rootPassword = env['MONGO_ROOT_PASSWORD'];
     return 'mongodb://root:$rootPassword@mongodb:27017/$database';
   }
 
   Future<void> runUnpubd(Db db) async {
+    if (!exists(UnpubdSettings.pathToPackages)) {
+      createDir(UnpubdSettings.pathToPackages, recursive: true);
+    }
     final app = App(
       metaStore: MongoStore(db),
       packageStore: FileStore(UnpubdSettings.pathToPackages),
     );
 
     final unpubHost = env['UNPUBD_HOST'];
-    final unpubPort = env['UNPUBD_PORT']!;
+    final unpubPort = env['UNPUBD_PORT'] ?? '4000';
 
     final server = await app.serve(unpubHost, int.parse(unpubPort));
     print('Serving at http://${server.address.host}:${server.port}');

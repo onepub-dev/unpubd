@@ -46,8 +46,8 @@ class InstallCommand extends Command<void> {
       exit(1);
     }
 
-    if (!exists(UnpubdSettings.pathToPackages)) {
-      createDir(UnpubdSettings.pathToPackages, recursive: true);
+    if (!exists(UnpubdSettings.pathToSettingsDir)) {
+      createDir(UnpubdSettings.pathToSettingsDir, recursive: true);
     }
 
     ResourceRegistry.resources['Dockerfile']!

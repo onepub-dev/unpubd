@@ -20,6 +20,8 @@ services:
       - mongodata:/data/db 
     networks:
       - unpubd
+    ports:
+      - 27017:27017      
 
     logging:
       driver: "journald"
