@@ -33,6 +33,8 @@ class InstallCommand extends Command<void> {
 
   ///
   void install() {
+    UnpubdSettings.load();
+    
     print(orange('Installing unpubd version: $packageVersion.'));
     if (which('docker-compose').notfound) {
       printerr('Please install docker-compose');

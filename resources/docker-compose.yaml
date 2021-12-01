@@ -1,7 +1,7 @@
 version: '3.1'
 
 networks:
-  unpub:
+  unpubd:
     driver: bridge
 
 volumes:
@@ -19,28 +19,14 @@ services:
     volumes:
       - mongodata:/data/db 
     networks:
-      - unpub
+      - unpubd
 
     logging:
       driver: "journald"
 
-  # mongoCreateUser:
-  #   image: mongo:latest
-  #   container_name: mongoCreateUser
-  #   environment:
-  #     WAIT_HOSTS: mongodb::27017
-  #   links:
-  #     - mongodb
-  #   networks:
-  #     - unpub      
-  #   command: /wait mongo --host mongodb --eval  "db.getSiblingDB('dart_pub').createUser({user:'${MONGO_INITDB_ROOT_USERNAME}', pwd:'${MONGO_INITDB_ROOT_PASSWORD}', roles:[{role:'readWrite',db:'dart_pub'}]});"
-  #   depends_on:
-  #     - mongodb      
-
-
-  unpub:
-    container_name: unpub
-    image: noojee/unpub:latest
+  unpubd:
+    container_name: unpubd
+    image: noojee/unpubd:latest
     restart: on-failure
     depends_on:
       - mongodb
@@ -55,7 +41,7 @@ services:
     links:
       - mongodb
     networks:
-      - unpub
+      - unpubd
     ports:
       - ${UNPUBD_PORT}:${UNPUBD_PORT}
     logging:

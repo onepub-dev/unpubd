@@ -31,6 +31,7 @@ class UpCommand extends Command<void> {
 
   @override
   void run() {
+    UnpubdSettings.load();
     if (!exists(UnpubdSettings.pathToSettings)) {
       logerr(red('''You must run 'unpubd install' first.'''));
       exit(1);
@@ -55,11 +56,11 @@ class UpCommand extends Command<void> {
       ..append('UNPUBD_HOST=${UnpubdSettings().unpubHost}')
       ..append('UNPUBD_PORT=${UnpubdSettings().unpubPort}');
 
-    build();
+    start();
   }
 
-  Future<void> build() async {
-    print('Coniguring docker packages');
+  Future<void> start() async {
+    print('Starting unpubd');
     'docker-compose up'
         .start(workingDirectory: dirname(UnpubdSettings.pathToDockerCompose));
   }
