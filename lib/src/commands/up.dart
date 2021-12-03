@@ -15,6 +15,7 @@ import 'package:args/command_runner.dart';
 import 'package:dcli/dcli.dart';
 
 import '../global_args.dart';
+import '../unpubd_paths.dart';
 import '../unpubd_settings.dart';
 import '../util/log.dart';
 
@@ -47,7 +48,7 @@ class UpCommand extends Command<void> {
   ///
   void up() {
     /// Create the .env for docker-compose to get its environment from.
-    UnpubdSettings.pathToDotEnv
+    UnpubdPaths().pathToDotEnv
       ..write('MONGO_INITDB_ROOT_USERNAME=root')
       ..append(
           'MONGO_INITDB_ROOT_PASSWORD=${UnpubdSettings().mongoRootPassword}')
@@ -67,6 +68,6 @@ class UpCommand extends Command<void> {
   Future<void> start() async {
     print('Starting unpubd');
     'docker-compose up'
-        .start(workingDirectory: dirname(UnpubdSettings.pathToDockerCompose));
+        .start(workingDirectory: dirname(UnpubdPaths().pathToDockerCompose));
   }
 }

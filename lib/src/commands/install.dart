@@ -5,6 +5,7 @@ import 'package:dcli/dcli.dart';
 
 import '../dcli/resources/generated/resource_registry.g.dart';
 import '../global_args.dart';
+import '../unpubd_paths.dart';
 import '../unpubd_settings.dart';
 import '../util/log.dart';
 import '../version/version.g.dart';
@@ -46,14 +47,14 @@ class InstallCommand extends Command<void> {
       exit(1);
     }
 
-    if (!exists(UnpubdSettings.pathToSettingsDir)) {
-      createDir(UnpubdSettings.pathToSettingsDir, recursive: true);
+    if (!exists(UnpubdPaths().pathToSettingsDir)) {
+      createDir(UnpubdPaths().pathToSettingsDir, recursive: true);
     }
 
     ResourceRegistry.resources['Dockerfile']!
-        .unpack(UnpubdSettings.pathToDockerfile);
+        .unpack(UnpubdPaths().pathToDockerfile);
     ResourceRegistry.resources['docker-compose.yaml']!
-        .unpack(UnpubdSettings.pathToDockerCompose);
+        .unpack(UnpubdPaths().pathToDockerCompose);
 
     ConfigCommand().promptForConfig();
 

@@ -6,6 +6,7 @@ environment:
 dependencies: 
   args: ^2.0.0
   dcli: ^1.14.0
+  docker2: ^2.1.0
   mongo_dart: ^0.7.4
   path: ^1.8.0
   settings_yaml: ^3.3.1

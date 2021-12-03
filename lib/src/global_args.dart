@@ -2,15 +2,15 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:dcli/dcli.dart';
-import 'commands/pull.dart';
-import 'commands/config.dart';
 
+import 'commands/config.dart';
 import 'commands/down.dart';
 import 'commands/install.dart';
+import 'commands/pull.dart';
+import 'commands/reset.dart';
 import 'commands/run.dart';
 import 'commands/up.dart';
 import 'util/log.dart';
-
 import 'version/version.g.dart';
 
 ///
@@ -45,8 +45,8 @@ You can alter the config by running 'unpubd config' or by modifying ~/.unpubd/un
     runner.argParser.addFlag('colour',
         abbr: 'c',
         defaultsTo: true,
-        help:
-            'Enabled colour coding of messages. You should disable colour when using the console to log.');
+        help: 'Enabled colour coding of messages. You should disable colour '
+            'when using the console to log.');
     runner.argParser.addOption('logfile',
         abbr: 'l', help: 'If set all output is sent to the provided logifile');
     runner.argParser.addFlag('insecure',
@@ -54,8 +54,8 @@ You can alter the config by running 'unpubd config' or by modifying ~/.unpubd/un
             'Should only be used during testing. When set, the hash files can be read/written by any user');
     runner.argParser.addFlag('quiet',
         abbr: 'q',
-        help:
-            "Don't output each directory scanned just log the totals and errors.");
+        help: "Don't output each directory scanned just "
+            'log the totals and errors.');
 
     runner.argParser
         .addFlag('version', help: 'Displays the unpubd version no. and exits.');
@@ -66,6 +66,7 @@ You can alter the config by running 'unpubd config' or by modifying ~/.unpubd/un
       ..addCommand(DownCommand())
       ..addCommand(InstallCommand())
       ..addCommand(PullCommand())
+      ..addCommand(ResetCommand())
       ..addCommand(RunCommand());
   }
 
@@ -105,6 +106,7 @@ You can alter the config by running 'unpubd config' or by modifying ~/.unpubd/un
     } on UsageException catch (e) {
       logerr(red(e.message));
       showUsage();
+      // ignore: avoid_catches_without_on_clauses
     } catch (e) {
       logerr(red(e.toString()));
     }

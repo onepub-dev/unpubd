@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:settings_yaml/settings_yaml.dart';
 import 'package:yaml/yaml.dart';
 
+import 'unpubd_paths.dart';
 import 'util/log.dart';
 
 class UnpubdSettings {
@@ -37,30 +38,14 @@ class UnpubdSettings {
 
   static UnpubdSettings? _self;
 
-  ///
-  static late final pathToDockerfile =
-      join(UnpubdSettings.pathToSettingsDir, 'Dockerfile');
-
-  /// path within the docker container.
-  static late final String pathToPackages = join(rootPath, 'unpub', 'packages');
-
-  static late final String pathToDockerCompose =
-      join(UnpubdSettings.pathToSettingsDir, 'docker-compose.yaml');
-
-  static late final String pathToDotEnv =
-      join(UnpubdSettings.pathToSettingsDir, '.env');
-
   bool showWarnings;
 
   late final SettingsYaml settings;
 
-  /// Path to the .batman settings directory
-  static late final String pathToSettingsDir =
-      join(rootPath, 'home', Shell.current.loggedInUser, '.unpubd');
 
   /// Path to the batman rules.yaml file.
   static late final String pathToSettings =
-      env['UPUBD_PATH'] ?? join(pathToSettingsDir, 'unpubd.yaml');
+      env['UPUBD_PATH'] ?? join(UnpubdPaths().pathToSettingsDir, 'unpubd.yaml');
 
   ///
   late final String mongoDatabase =

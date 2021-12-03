@@ -4,6 +4,7 @@ import 'package:args/command_runner.dart';
 import 'package:dcli/dcli.dart';
 
 import '../global_args.dart';
+import '../unpubd_paths.dart';
 import '../unpubd_settings.dart';
 import '../util/log.dart';
 
@@ -39,6 +40,6 @@ class DownCommand extends Command<void> {
   void down() {
     print('Stoping unpubd');
     'docker-compose down'
-        .start(workingDirectory: dirname(UnpubdSettings.pathToDockerCompose));
+        .start(workingDirectory: dirname(UnpubdPaths().pathToDockerCompose));
   }
 }

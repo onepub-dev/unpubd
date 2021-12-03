@@ -9,10 +9,10 @@ import 'package:dcli/dcli.dart';
 /// 
 /// GENERATED - GENERATED
 
-class Cbadcababfa extends PackedResource {
+class Acccccdfebacebe extends PackedResource {
 
   /// PackedResource - docker-compose.yaml
-  const Cbadcababfa();
+  const Acccccdfebacebe();
 
   /// A hash of the resource (pre packed) calculated by
   /// [calculateHash].

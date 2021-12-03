@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:dcli/dcli.dart';
 import 'package:dcli/src/version/version.g.dart';
-import 'package:unpubd/src/unpubd_settings.dart';
 
 /// build and publish the unpubd docker container.
 void main(List<String> args) {

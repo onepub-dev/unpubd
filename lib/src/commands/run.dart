@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:args/command_runner.dart';
 import 'package:dcli/dcli.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:unpub/unpub.dart';
 
 import '../global_args.dart';
-import '../unpubd_settings.dart';
+import '../unpubd_paths.dart';
 import '../util/log.dart';
 import 'run_args.dart';
 
@@ -27,11 +25,6 @@ class RunCommand extends Command<void> {
   void run() {
     RunArgs().parse(argResults!);
 
-    if (!exists(UnpubdSettings.pathToSettings)) {
-      logerr(red('''You must run 'unpubd install' first.'''));
-      exit(1);
-    }
-
     if (!ParsedArgs().secureMode) {
       log(orange('Warning: you are running in insecure mode. '
           'Hash files can be modified by any user.'));
@@ -43,6 +36,10 @@ class RunCommand extends Command<void> {
   Future<void> _run() async {
     final db = await waitForMongo();
 
+    if (RunArgs().create) {
+      await createDb(db, getDatabaseName());
+    }
+
     await runUnpubd(db);
   }
 
@@ -51,7 +48,7 @@ class RunCommand extends Command<void> {
     var connected = false;
     while (!connected) {
       try {
-        db = Db(mongoUri());
+        db = Db(mongoRootUri());
         await db.open(); // make sure the MongoDB connection opened
         connected = true;
 
@@ -65,30 +62,46 @@ class RunCommand extends Command<void> {
     return db!;
   }
 
-  String mongoUri() {
-    final database = env['MONGO_DATABASE'];
-    return 'mongodb://mongodb:27017/$database';
+  // String mongoUri() {
+  //   final database = getDatabaseName();
+  //   final host = env['MONGO_HOST'] ?? 'mongodb';
+  //   final port = env['MONGO_PORT'] ?? '27017';
+  //   return 'mongodb://$host:$port/$database';
+  // }
+
+  String getDatabaseName() {
+    final database = env['MONGO_DATABASE'] ?? 'dart_pub';
+    return database;
   }
 
   String mongoRootUri() {
     final database = env['MONGO_DATABASE'];
     final rootPassword = env['MONGO_ROOT_PASSWORD'];
-    return 'mongodb://root:$rootPassword@mongodb:27017/$database';
+    final host = env['MONGO_HOST'] ?? 'mongodb';
+    final port = env['MONGO_PORT'] ?? '27017';
+    return 'mongodb://root:$rootPassword@$host:$port/$database';
   }
 
   Future<void> runUnpubd(Db db) async {
-    if (!exists(UnpubdSettings.pathToPackages)) {
-      createDir(UnpubdSettings.pathToPackages, recursive: true);
+    if (!exists(UnpubdPaths().pathToPackages)) {
+      createDir(UnpubdPaths().pathToPackages, recursive: true);
     }
     final app = App(
       metaStore: MongoStore(db),
-      packageStore: FileStore(UnpubdSettings.pathToPackages),
+      packageStore: FileStore(UnpubdPaths().pathToPackages),
     );
 
-    final unpubHost = env['UNPUBD_HOST'];
+    final unpubHost = env['UNPUBD_HOST'] ?? '0.0.0.0';
     final unpubPort = env['UNPUBD_PORT'] ?? '4000';
 
     final server = await app.serve(unpubHost, int.parse(unpubPort));
     print('Serving at http://${server.address.host}:${server.port}');
+  }
+
+  Future<void> createDb(Db db, String dbName) async {
+    await Db.create(mongoRootUri());
+    final dbs = await db.listDatabases();
+
+    for (final db in dbs) {}
   }
 }
