@@ -25,11 +25,6 @@ class RunCommand extends Command<void> {
   void run() {
     RunArgs().parse(argResults!);
 
-    if (!ParsedArgs().secureMode) {
-      log(orange('Warning: you are running in insecure mode. '
-          'Hash files can be modified by any user.'));
-    }
-
     waitForEx<void>(_run());
   }
 
@@ -76,10 +71,14 @@ class RunCommand extends Command<void> {
 
   String mongoRootUri() {
     final database = env['MONGO_DATABASE'];
+    final rootUsername = env['MONGO_ROOT_USERNAME'];
     final rootPassword = env['MONGO_ROOT_PASSWORD'];
     final host = env['MONGO_HOST'] ?? 'mongodb';
     final port = env['MONGO_PORT'] ?? '27017';
-    return 'mongodb://root:$rootPassword@$host:$port/$database';
+    final uri = 'mongodb://$rootUsername:$rootPassword@$host:$port/unpubd?authSource=admin'; //
+    //$database';
+    print('connecting with $uri');
+    return uri;
   }
 
   Future<void> runUnpubd(Db db) async {

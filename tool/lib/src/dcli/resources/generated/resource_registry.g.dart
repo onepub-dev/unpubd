@@ -1,7 +1,7 @@
 // ignore: prefer_relative_imports
 import 'package:dcli/dcli.dart';
-import 'Abcaaabeafc.g.dart';
-import 'Dcebaabcfbcda.g.dart';
+import 'Bfabeabaeec.g.dart';
+import 'Cdcebbcaebae.g.dart';
 
 /// GENERATED -- GENERATED
 /// 
@@ -22,8 +22,8 @@ class ResourceRegistry {
   ///     .unpack(join(HOME, '.mysettings', 'rules.yaml'));
   /// ```
   static const resources = <String, PackedResource>{
-      'docker-compose.yaml' : Abcaaabeafc(),
-            'Dockerfile' : Dcebaabcfbcda(),
+      'Dockerfile' : Bfabeabaeec(),
+            'docker-compose.yaml' : Cdcebbcaebae(),
           };
   }
   

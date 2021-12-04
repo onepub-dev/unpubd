@@ -49,9 +49,6 @@ You can alter the config by running 'unpubd config' or by modifying ~/.unpubd/un
             'when using the console to log.');
     runner.argParser.addOption('logfile',
         abbr: 'l', help: 'If set all output is sent to the provided logifile');
-    runner.argParser.addFlag('insecure',
-        help:
-            'Should only be used during testing. When set, the hash files can be read/written by any user');
     runner.argParser.addFlag('quiet',
         abbr: 'q',
         help: "Don't output each directory scanned just "
@@ -80,7 +77,6 @@ You can alter the config by running 'unpubd config' or by modifying ~/.unpubd/un
       exit(0);
     }
 
-    secureMode = results['insecure'] as bool == false;
     quiet = results['quiet'] as bool == true;
     colour = results['colour'] as bool == true;
 

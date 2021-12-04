@@ -22,29 +22,40 @@ class ResetCommand extends Command<void> {
 
   @override
   void run() {
-    RunArgs().parse(argResults!);
-
-    waitForEx<void>(_reset());
-  }
-
-  Future<void> _reset() async {
-    if (!confirm('Are you sure? '
-        'Proceeding will delete the Mongo DB and all existing packages!')) {
+    if (!confirm(red('Are you sure? '
+        'Proceeding will delete the Mongo DB and all existing packages!'))) {
       exit(0);
     }
-    final container = Docker().findContainerByName('unpubd');
+    final container = Docker().findContainerByName('mongo');
     if (container == null) {
-      printerr(red('Unable to find the unpubd container '
-          'which should be called unpubd'));
-      exit(0);
-    }
-
-    final volumes = container.volumes;
-    for (final volume in volumes) {
-      if (!confirm('Delete volume ${volume.name}?')) {
+      /// container so delete volume by name.
+      final volume = Volumes().findByName('unpubd_mongodata');
+      if (volume != null) {
         volume.delete();
         print('Volume ${volume.name} deleted');
       }
+    } else {
+      //  we have a container so delete attahed volumes.
+      final volumes = container.volumes;
+      for (final volume in volumes) {
+        if (!confirm('Delete volume ${volume.name}?')) {
+          deleteMongoContainer();
+          volume.delete();
+          print('Volume ${volume.name} deleted');
+        }
+      }
+    }
+  }
+
+  void deleteMongoContainer() {
+    final container = Docker().findContainerByName('mongo');
+    if (container != null) {
+      if (container.isRunning) {
+        print('Stopping Mongo');
+        container.stop();
+      }
+      print('Deleting Mongo container');
+      container.delete();
     }
   }
 }

@@ -7,11 +7,11 @@ class UnpubdPaths {
       _self = UnpubdPaths._internal(settingsRoot, dockerRoot);
 
   UnpubdPaths._internal(this._settingsRoot, this._dockerRoot);
-  static UnpubdPaths _self = UnpubdPaths._internal(rootPath, rootPath);
+  static UnpubdPaths _self = UnpubdPaths._internal(HOME, rootPath);
 
   /// Path to the .batman settings directory
   late final String pathToSettingsDir =
-      join(_settingsRoot, 'home', Shell.current.loggedInUser, '.unpubd');
+      env['UPUBD_PATH'] ?? join(_settingsRoot, '.unpubd');
 
   ///
   late final pathToDockerfile = join(pathToSettingsDir, 'Dockerfile');

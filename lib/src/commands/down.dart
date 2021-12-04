@@ -28,10 +28,6 @@ class DownCommand extends Command<void> {
       exit(1);
     }
 
-    if (!ParsedArgs().secureMode) {
-      log(orange('Warning: you are running in insecure mode. '
-          'Hash files can be modified by any user.'));
-    }
 
     down();
   }

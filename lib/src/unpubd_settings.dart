@@ -42,35 +42,44 @@ class UnpubdSettings {
 
   late final SettingsYaml settings;
 
-
-  /// Path to the batman rules.yaml file.
+  /// Path to the unpubd unpubd.yaml file.
   static late final String pathToSettings =
-      env['UPUBD_PATH'] ?? join(UnpubdPaths().pathToSettingsDir, 'unpubd.yaml');
+      join(UnpubdPaths().pathToSettingsDir, 'unpubd.yaml');
+
+  ///
+  late final String mongoHost =
+      settings.asString('mongo_host', defaultValue: 'localhost');
+
+  ///
+  late final String mongoPort =
+      settings.asString('mongo_port', defaultValue: '27017');
 
   ///
   late final String mongoDatabase =
       settings.asString('mongo_database', defaultValue: 'unpubd');
 
   ///
-  String get mongoUsername =>
-      settings.asString('mongo_username', defaultValue: 'unpubd');
+  String get mongoRootUsername =>
+      settings.asString('mongo_root_username', defaultValue: 'root');
 
   ///
-  set mongoUsername(String mongousername) =>
-      settings['mongo_username'] = mongousername;
+  set mongoRootUsername(String mongoRootUsername) =>
+      settings['mongo_root_username'] = mongoRootUsername;
 
   ///
-  String get mongoPassword => settings.asString('mongo_password',
-      defaultValue: generateRandomString(15));
-  set mongoPassword(String mongoPassword) =>
-      settings['mongo_password'] = mongoPassword;
-
-  late final String mongoRootPassword = settings.asString('mongo_root_password',
-      defaultValue: generateRandomString(15));
+  String get mongoRootPassword => settings.asString('mongo_root_password');
 
   ///
-  late final String unpubHost =
+  set mongoRootPassword(String mongoRootPassword) =>
+      settings['mongo_root_password'] = mongoRootPassword;
+
+  ///
+  String get unpubHost =>
       settings.asString('unpub_host', defaultValue: '0.0.0.0');
+
+  ///
+  set unpubHost(String mongoRootPassword) =>
+      settings['unpub_host'] = mongoRootPassword;
 
   ///
   String get unpubPort => settings.asString('unpub_port', defaultValue: '4000');

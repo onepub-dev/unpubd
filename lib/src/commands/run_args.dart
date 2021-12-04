@@ -74,14 +74,15 @@ You must pass in --dbrootusername and --dbrootpassword''');
     database =
         parsed['database'] as String? ?? env['MONGO_DATABASE'] ?? 'unpubd';
 
-    dbuser =
-        parsed['dbusername'] as String? ?? env['MONGO_USERNAME'] ?? 'unpubd';
-    dbpassword = parsed['dbpassword'] as String? ?? env['MONGO_PASSWORD'];
+    dbuser = parsed['dbusername'] as String? ??
+        env['MONGO_ROOT_USERNAME'] ??
+        'unpubd';
+    dbpassword = parsed['dbpassword'] as String? ?? env['MONGO_ROOT_PASSWORD'];
 
     if (dbpassword == null) {
       printerr(red('You must provide password via either '
           'the command line arg --dbpassword or '
-          'the environment variable MONGO_PASSWORD'));
+          'the environment variable MONGO_ROOT_PASSWORD'));
       exit(1);
     }
     unpubport = parsed['unpubport'] as String? ?? env['UNPUBD_PORT'] ?? '4000';
@@ -98,8 +99,8 @@ You must pass in --dbrootusername and --dbrootpassword''');
         exit(1);
       }
 
-      dbRootPassword = parsed['dbrootpassword'] as String? ??
-          env['MONGO_ROOT_PASSWORD'];
+      dbRootPassword =
+          parsed['dbrootpassword'] as String? ?? env['MONGO_ROOT_PASSWORD'];
 
       if (dbRootPassword == null) {
         printerr(red('You must provide dbRootPassword via either '
