@@ -3,6 +3,6 @@ import 'package:unpubd/src/entry_point.dart';
 
 void main() {
   test('up ...', () async {
-     entrypoint(['up']);
+    entrypoint(['up']);
   });
 }

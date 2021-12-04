@@ -22,7 +22,7 @@ void main(List<String> args) {
     exit(1);
   }
   final dockerfilePath =
-      join(DartProject.self.pathToProjectRoot, 'resources', 'Dockerfile');
+      join(DartProject.self.pathToProjectRoot, 'resource', 'Dockerfile');
 
   'dcli pack'.run;
 

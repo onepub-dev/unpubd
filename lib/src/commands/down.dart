@@ -21,12 +21,11 @@ class DownCommand extends Command<void> {
   @override
   void run() {
     UnpubdSettings.load();
-    
+
     if (!exists(UnpubdSettings.pathToSettings)) {
       logerr(red('''You must run 'unpubd install' first.'''));
       exit(1);
     }
-
 
     down();
   }

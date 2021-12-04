@@ -2,16 +2,15 @@
 import 'package:dcli/dcli.dart';
 
 /// GENERATED -- GENERATED
-/// 
+///
 /// DO NOT MODIFIY
-/// 
+///
 /// This script is generated via [Resource.pack()].
-/// 
+///
 /// GENERATED - GENERATED
 
 class Bfabeabaeec extends PackedResource {
-
-  /// PackedResource - ..\..\resources\Dockerfile
+  /// PackedResource - ..\..\resource\Dockerfile
   const Bfabeabaeec();
 
   /// A hash of the resource (pre packed) calculated by
@@ -22,19 +21,19 @@ class Bfabeabaeec extends PackedResource {
   /// ```dart
   ///   calculateHash(pathToResource).hexEncode() == packResource.checksum
   /// ```
-  /// to compare the checksum of the local file with 
+  /// to compare the checksum of the local file with
   /// this checksum
   @override
-  String get checksum 
-    => 'b1b150621266de0ca075398ba68059714be247494872ce7d77e6f298ec2d4408';
-    
-  /// <package>/resources relative path to the original resource.
+  String get checksum =>
+      'b1b150621266de0ca075398ba68059714be247494872ce7d77e6f298ec2d4408';
+
+  /// <package>/resource relative path to the original resource.
   @override
   String get originalPath => 'Dockerfile';
-  
+
   @override
-  String get content => 
-     '''
+  String get content =>
+      '''
 IyBTcGVjaWZ5IHRoZSBEYXJ0IFNESyBiYXNlIGltYWdlIHZlcnNpb24gdXNpbmcgZGFydDo8dmVyc2lv
 bj4gKGV4OiBkYXJ0OjIuMTIpDQojRlJPTSBkYXJ0OnN0YWJsZSBBUyBidWlsZA0KIyBGUk9NIHVidW50
 dToyMS4wNCBBUyBidWlsZA0KRlJPTSBnb29nbGUvZGFydCBhcyBidWlsZA0KDQpSVU4gbWtkaXIgL3Ny
@@ -54,5 +53,4 @@ TkdPX0hPU1R9DQpFTlYgTU9OR09fUE9SVD0ke01PTkdPX1BPUlR9DQoNCkVOViBVTlBVQkRfUE9SVD0k
 e1VOUFVCRF9QT1JUfQ0KDQpFWFBPU0UgJHtVTlBVQkRfUE9SVH0NCg0KRU5UUllQT0lOVCBbIi91bnB1
 YmQiLCJydW4iLCAiLS1jcmVhdGUiXQ0K
   ''';
-  
 }

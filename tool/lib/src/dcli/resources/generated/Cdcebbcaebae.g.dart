@@ -2,16 +2,15 @@
 import 'package:dcli/dcli.dart';
 
 /// GENERATED -- GENERATED
-/// 
+///
 /// DO NOT MODIFIY
-/// 
+///
 /// This script is generated via [Resource.pack()].
-/// 
+///
 /// GENERATED - GENERATED
 
 class Cdcebbcaebae extends PackedResource {
-
-  /// PackedResource - ..\..\resources\docker-compose.yaml
+  /// PackedResource - ..\..\resource\docker-compose.yaml
   const Cdcebbcaebae();
 
   /// A hash of the resource (pre packed) calculated by
@@ -22,19 +21,19 @@ class Cdcebbcaebae extends PackedResource {
   /// ```dart
   ///   calculateHash(pathToResource).hexEncode() == packResource.checksum
   /// ```
-  /// to compare the checksum of the local file with 
+  /// to compare the checksum of the local file with
   /// this checksum
   @override
-  String get checksum 
-    => '9fb119c3977b617cdac1a41abd5e50e74d46b81dce0e668709356441f19aa37e';
-    
-  /// <package>/resources relative path to the original resource.
+  String get checksum =>
+      '9fb119c3977b617cdac1a41abd5e50e74d46b81dce0e668709356441f19aa37e';
+
+  /// <package>/resource relative path to the original resource.
   @override
   String get originalPath => 'docker-compose.yaml';
-  
+
   @override
-  String get content => 
-     '''
+  String get content =>
+      '''
 dmVyc2lvbjogJzMuMScNCg0KbmV0d29ya3M6DQogIHVucHViZDoNCiAgICBkcml2ZXI6IGJyaWRnZQ0K
 DQp2b2x1bWVzOg0KICBtb25nb2RhdGE6IG51bGwNCg0Kc2VydmljZXM6DQogIG1vbmdvZGI6DQogICAg
 Y29udGFpbmVyX25hbWU6IG1vbmdvDQogICAgaW1hZ2U6IG1vbmdvOmxhdGVzdA0KICAgIHJlc3RhcnQ6
@@ -56,5 +55,4 @@ IC0gbW9uZ29kYg0KICAgIG5ldHdvcmtzOg0KICAgICAgLSB1bnB1YmQNCiAgICBwb3J0czoNCiAgICAg
 IC0gJHtVTlBVQkRfUE9SVH06JHtVTlBVQkRfUE9SVH0NCiAgICBsb2dnaW5nOg0KICAgICAgZHJpdmVy
 OiAibG9jYWwiICAgICAgDQoNCiAgICAgIA==
   ''';
-  
 }
