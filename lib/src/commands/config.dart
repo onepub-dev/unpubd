@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:dcli/dcli.dart';
 
-import '../global_args.dart';
 import '../unpubd_settings.dart';
 import '../util/log.dart';
 

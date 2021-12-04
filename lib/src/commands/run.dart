@@ -3,9 +3,7 @@ import 'package:dcli/dcli.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:unpub/unpub.dart';
 
-import '../global_args.dart';
 import '../unpubd_paths.dart';
-import '../util/log.dart';
 import 'run_args.dart';
 
 ///
@@ -70,7 +68,6 @@ class RunCommand extends Command<void> {
   }
 
   String mongoRootUri() {
-    final database = env['MONGO_DATABASE'];
     final rootUsername = env['MONGO_ROOT_USERNAME'];
     final rootPassword = env['MONGO_ROOT_PASSWORD'];
     final host = env['MONGO_HOST'] ?? 'mongodb';

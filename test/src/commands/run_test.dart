@@ -1,7 +1,6 @@
 import 'package:dcli/dcli.dart';
 import 'package:test/test.dart';
 import 'package:unpubd/src/entry_point.dart';
-import 'package:unpubd/src/env_file.dart';
 import 'package:unpubd/src/unpubd_paths.dart';
 import 'package:unpubd/src/unpubd_settings.dart';
 
