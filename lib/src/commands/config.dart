@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:dcli/dcli.dart';
+import '../dcli/resources/generated/resource_registry.g.dart';
+import '../unpubd_paths.dart';
 
 import '../unpubd_settings.dart';
 import '../util/log.dart';
@@ -33,6 +35,7 @@ class ConfigCommand extends Command<void> {
   void config() {
     print('Configure UnpubD');
     promptForConfig();
+    prepareDocker();
   }
 
   void promptForConfig() {
@@ -60,5 +63,35 @@ class ConfigCommand extends Command<void> {
     UnpubdSettings().mongoRootPassword = generateRandomString(15);
     UnpubdSettings().unpubPort = port;
     UnpubdSettings().save();
+  }
+
+  void prepareDocker() {
+    ResourceRegistry.resources['Dockerfile']!
+        .unpack(UnpubdPaths().pathToDockerfile);
+    ResourceRegistry.resources['docker-compose.yaml']!
+        .unpack(UnpubdPaths().pathToDockerCompose);
+
+    replace(UnpubdPaths().pathToDockerCompose, '#PATH_TO_INITDB#',
+        UnpubdPaths().pathToMongoEntryPoint);
+
+    writeUserCreate(
+        username: UnpubdSettings().mongoRootUsername,
+        password: UnpubdSettings().mongoRootPassword);
+  }
+
+  void writeUserCreate({required String username, required String password}) {
+    if (!exists(UnpubdPaths().pathToMongoEntryPoint)) {
+      createDir(UnpubdPaths().pathToMongoEntryPoint, recursive: true);
+    }
+    final script = '''
+      db.createUser(
+   {
+     user: "$username",
+     pwd: "$password",
+     roles: [ "readWrite", "dbAdmin" ]
+   }
+)
+''';
+    UnpubdPaths().pathToUserCreateJs.write(script);
   }
 }

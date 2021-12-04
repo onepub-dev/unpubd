@@ -18,10 +18,12 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
     volumes:
       - mongodata:/data/db 
+      - #PATH_TO_INITDB#:/docker-entrypoint-initdb.d/
     networks:
       - unpubd
-    ports:
-      - 27017:27017      
+# use if we need to connect directly to Mongo from host. ONLY FOR TESTING
+#    ports:
+#      - 27017:27017      
 
     logging:
       driver: "local"

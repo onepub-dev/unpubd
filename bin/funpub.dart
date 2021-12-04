@@ -13,7 +13,7 @@ void main(List<String> arguments) {
       exit(1);
     }
     
-  env['PUB_HOSTED_URL'] = 'http://localhost:${UnpubdSettings().unpubPort}';
+  env[UnpubdSettings.pubHostedUrlKey] = 'http://localhost:${UnpubdSettings().unpubPort}';
   DartSdk().runPub(args: arguments);
 
   final progress = Progress.print();

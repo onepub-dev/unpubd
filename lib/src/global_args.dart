@@ -4,6 +4,7 @@ import 'package:args/command_runner.dart';
 import 'package:dcli/dcli.dart';
 
 import 'commands/config.dart';
+import 'commands/doctor.dart';
 import 'commands/down.dart';
 import 'commands/install.dart';
 import 'commands/pull.dart';
@@ -64,7 +65,8 @@ You can alter the config by running 'unpubd config' or by modifying ~/.unpubd/un
       ..addCommand(InstallCommand())
       ..addCommand(PullCommand())
       ..addCommand(ResetCommand())
-      ..addCommand(RunCommand());
+      ..addCommand(RunCommand())
+      ..addCommand(DoctorCommand());
   }
 
   void parse() {

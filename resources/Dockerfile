@@ -11,9 +11,11 @@ RUN mkdir -p /src/unpubd
 # we update this line from tool/build.dart to force a new clone
 # recompile after a code change in the git repo.
 RUN mkdir -p /BUILD_TOKEN/9f0aec0f20f046c08471a6c5c094b98b
-COPY . /src/unpubd
+
+# swap this line for the git clone during dev to make round trips faster.
+#COPY . /src/unpubd
 WORKDIR /src
-# RUN git clone https://github.com/bsutton/unpubd.git
+RUN git clone https://github.com/bsutton/unpubd.git
 
 WORKDIR /src/unpubd
 RUN dart pub get
@@ -41,4 +43,4 @@ ENV UNPUBD_PORT=${UNPUBD_PORT}
 
 EXPOSE ${UNPUBD_PORT}
 
-ENTRYPOINT ["/unpubd","run", "--create"]
+ENTRYPOINT ["/unpubd","run"]

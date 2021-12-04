@@ -19,6 +19,10 @@ class RunCommand extends Command<void> {
   @override
   String get name => 'run';
 
+  /// This command is only used within the docker container.
+  @override
+  bool get hidden => true;
+
   @override
   void run() {
     RunArgs().parse(argResults!);
@@ -28,10 +32,6 @@ class RunCommand extends Command<void> {
 
   Future<void> _run() async {
     final db = await waitForMongo();
-
-    if (RunArgs().create) {
-      await createDb(db, getDatabaseName());
-    }
 
     await runUnpubd(db);
   }
@@ -55,13 +55,6 @@ class RunCommand extends Command<void> {
     return db!;
   }
 
-  // String mongoUri() {
-  //   final database = getDatabaseName();
-  //   final host = env['MONGO_HOST'] ?? 'mongodb';
-  //   final port = env['MONGO_PORT'] ?? '27017';
-  //   return 'mongodb://$host:$port/$database';
-  // }
-
   String getDatabaseName() {
     final database = env['MONGO_DATABASE'] ?? 'dart_pub';
     return database;
@@ -72,7 +65,8 @@ class RunCommand extends Command<void> {
     final rootPassword = env['MONGO_ROOT_PASSWORD'];
     final host = env['MONGO_HOST'] ?? 'mongodb';
     final port = env['MONGO_PORT'] ?? '27017';
-    final uri = 'mongodb://$rootUsername:$rootPassword@$host:$port/unpubd?authSource=admin'; //
+    final uri =
+        'mongodb://$rootUsername:$rootPassword@$host:$port/unpubd?authSource=admin'; //
     //$database';
     print('connecting with $uri');
     return uri;
@@ -92,12 +86,5 @@ class RunCommand extends Command<void> {
 
     final server = await app.serve(unpubHost, int.parse(unpubPort));
     print('Serving at http://${server.address.host}:${server.port}');
-  }
-
-  Future<void> createDb(Db db, String dbName) async {
-    await Db.create(mongoRootUri());
-    final dbs = await db.listDatabases();
-
-    for (final db in dbs) {}
   }
 }

@@ -22,40 +22,51 @@ class ResetCommand extends Command<void> {
 
   @override
   void run() {
-    if (!confirm(red('Are you sure? '
-        'Proceeding will delete the Mongo DB and all existing packages!'))) {
+    print(
+        red('Proceeding will delete the Mongo DB and all existing packages!'));
+    if (!confirm(red('Are you sure? '))) {
       exit(0);
     }
-    final container = Docker().findContainerByName('mongo');
-    if (container == null) {
-      /// container so delete volume by name.
-      final volume = Volumes().findByName('unpubd_mongodata');
-      if (volume != null) {
+
+    final mongoVolumes = deleteContainer('mongo');
+    final unpudVolumes = deleteContainer('unpubd');
+
+    /// container so delete volume by name.
+    final volume = Volumes().findByName('unpubd_mongodata');
+    if (volume != null) {
+      volume.delete();
+      print('Volume ${volume.name} deleted');
+    }
+
+    /// incase there were any other volumes attached
+    /// lets delete them too.
+    deleteVolumes(mongoVolumes);
+    deleteVolumes(unpudVolumes);
+  }
+
+  void deleteVolumes(List<Volume> volumes) {
+    for (final volume in volumes) {
+      if (!confirm('Delete volume ${volume.name}?')) {
         volume.delete();
         print('Volume ${volume.name} deleted');
-      }
-    } else {
-      //  we have a container so delete attahed volumes.
-      final volumes = container.volumes;
-      for (final volume in volumes) {
-        if (!confirm('Delete volume ${volume.name}?')) {
-          deleteMongoContainer();
-          volume.delete();
-          print('Volume ${volume.name} deleted');
-        }
       }
     }
   }
 
-  void deleteMongoContainer() {
-    final container = Docker().findContainerByName('mongo');
+  List<Volume> deleteContainer(String name) {
+    final container = Docker().findContainerByName(name);
+    var volumes = <Volume>[];
     if (container != null) {
-      if (container.isRunning) {
-        print('Stopping Mongo');
-        container.stop();
+      volumes = container.volumes;
+      print('Stopping $name');
+      container.stop();
+      while (container.isRunning) {
+        sleep(5);
+        echo('.');
       }
-      print('Deleting Mongo container');
+      print('Deleting $name');
       container.delete();
     }
+    return volumes;
   }
 }

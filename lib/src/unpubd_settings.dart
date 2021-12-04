@@ -36,6 +36,8 @@ class UnpubdSettings {
   @visibleForTesting
   UnpubdSettings.loadFromSettings(this.settings, {required this.showWarnings});
 
+  static const pubHostedUrlKey = 'PUB_HOSTED_URL';
+
   static UnpubdSettings? _self;
 
   bool showWarnings;
@@ -61,6 +63,8 @@ class UnpubdSettings {
   ///
   String get mongoRootUsername =>
       settings.asString('mongo_root_username', defaultValue: 'root');
+
+  String get unpubUrl => 'http://localhost:$unpubPort';
 
   ///
   set mongoRootUsername(String mongoRootUsername) =>

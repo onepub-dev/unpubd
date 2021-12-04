@@ -24,6 +24,12 @@ class UnpubdPaths {
 
   late final String pathToDotEnv = join(pathToSettingsDir, '.env');
 
+  /// Path in mongo docker container to
+  /// mongo initdb scripts
+  late final String pathToMongoEntryPoint = join(pathToSettingsDir, 'initdb.d');
+
+  late final String pathToUserCreateJs =
+      join(pathToMongoEntryPoint, 'create_user.js');
   final String _settingsRoot;
   final String _dockerRoot;
 }

@@ -23,8 +23,10 @@ import '../util/log.dart';
 class UpCommand extends Command<void> {
   ///
   UpCommand() {
-    argParser.addFlag('detached',
+    argParser.addFlag('detach',
         abbr: 'd', help: 'Start unpubd as a background daemon');
+
+    Settings().setVerbose(enabled: true);
   }
 
   @override
@@ -42,22 +44,22 @@ class UpCommand extends Command<void> {
       exit(1);
     }
 
-    final detached = argResults!['detached'] as bool;
-    up(detached: detached);
+    final detach = argResults!['detach'] as bool;
+    up(detach: detach);
   }
 
   ///
-  void up({required bool detached}) {
+  void up({required bool detach}) {
     EnvFile.create();
-    start(detached: detached);
+    start(detach: detach);
   }
 
-  Future<void> start({required bool detached}) async {
+  Future<void> start({required bool detach}) async {
     EnvFile.create();
     print('Starting unpubd');
-    final detachedArg = detached ? '--detached' : '';
+    final detachArg = detach ? '--detach' : '';
 
-    'docker-compose up $detachedArg'
+    'docker-compose up $detachArg'
         .start(workingDirectory: dirname(UnpubdPaths().pathToDockerCompose));
   }
 }

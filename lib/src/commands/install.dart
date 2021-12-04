@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:dcli/dcli.dart';
 
-import '../dcli/resources/generated/resource_registry.g.dart';
 import '../unpubd_paths.dart';
 import '../unpubd_settings.dart';
 import '../version/version.g.dart';
@@ -48,19 +47,14 @@ class InstallCommand extends Command<void> {
       createDir(UnpubdPaths().pathToSettingsDir, recursive: true);
     }
 
-    ResourceRegistry.resources['Dockerfile']!
-        .unpack(UnpubdPaths().pathToDockerfile);
-    ResourceRegistry.resources['docker-compose.yaml']!
-        .unpack(UnpubdPaths().pathToDockerCompose);
-
-    ConfigCommand().promptForConfig();
+    ConfigCommand().config();
 
     PullCommand.pull();
 
     print(blue('''
 To start the unpubd server:
   - Run 'unpubd up' to start unpubd in the foreground.
-  - Run 'unpubd up --detached' to start unpubd as a daemon.
+  - Run 'unpubd up --detach' to start unpubd as a daemon.
 '''));
     print(blue('''
 To access the unpub repository use unpub or funpub in place of dart/flutter pub.
