@@ -14,7 +14,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:dcli/dcli.dart';
 
-import '../global_args.dart';
+import '../env_file.dart';
 import '../unpubd_paths.dart';
 import '../unpubd_settings.dart';
 import '../util/log.dart';
@@ -22,7 +22,12 @@ import '../util/log.dart';
 ///
 class UpCommand extends Command<void> {
   ///
-  UpCommand();
+  UpCommand() {
+    argParser.addFlag('detach',
+        abbr: 'd', help: 'Start unpubd as a background daemon');
+
+    Settings().setVerbose(enabled: true);
+  }
 
   @override
   String get description => 'Starts the unpubd daemon.';
@@ -33,41 +38,28 @@ class UpCommand extends Command<void> {
   @override
   void run() {
     UnpubdSettings.load();
+
     if (!exists(UnpubdSettings.pathToSettings)) {
       logerr(red('''You must run 'unpubd install' first.'''));
       exit(1);
     }
 
-    if (!ParsedArgs().secureMode) {
-      log(orange('Warning: you are running in insecure mode. '
-          'Hash files can be modified by any user.'));
-    }
-    up();
+    final detach = argResults!['detach'] as bool;
+    up(detach: detach);
   }
 
   ///
-  void up() {
-    /// Create the .env for docker-compose to get its environment from.
-    UnpubdPaths().pathToDotEnv
-      ..write('MONGO_INITDB_ROOT_USERNAME=root')
-      ..append(
-          'MONGO_INITDB_ROOT_PASSWORD=${UnpubdSettings().mongoRootPassword}')
-      ..append('MONGO_INITDB_DATABASE=${UnpubdSettings().mongoDatabase}')
-      ..append('MONGO_DATABASE=${UnpubdSettings().mongoDatabase}')
-      ..append('MONGO_USERNAME=${UnpubdSettings().mongoUsername}')
-      ..append('MONGO_PASSWORD=${UnpubdSettings().mongoPassword}')
-      ..append('MONGO_HOST=mongodb')
-      ..append('MONGO_PORT=27017')
-      ..append('TZ=${DateTime.now().timeZoneName}')
-      ..append('UNPUBD_HOST=${UnpubdSettings().unpubHost}')
-      ..append('UNPUBD_PORT=${UnpubdSettings().unpubPort}');
-
-    start();
+  void up({required bool detach}) {
+    EnvFile.create();
+    start(detach: detach);
   }
 
-  Future<void> start() async {
+  Future<void> start({required bool detach}) async {
+    EnvFile.create();
     print('Starting unpubd');
-    'docker-compose up'
+    final detachArg = detach ? '--detach' : '';
+
+    'docker-compose up $detachArg'
         .start(workingDirectory: dirname(UnpubdPaths().pathToDockerCompose));
   }
 }

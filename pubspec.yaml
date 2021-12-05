@@ -1,5 +1,5 @@
 name: unpubd
-version: 0.0.1
+version: 0.0.6
 description: Self hosted Dart Pub Server. Host your enterprise Dart packages internally using the same web interface and tools as pub.dev.
 repository: https://github.com/bsutton/unpubd
 homepage: https://github.com/bsutton/unpubd
@@ -8,11 +8,17 @@ environment:
 dependencies: 
   args: ^2.0.0
   dcli: ^1.14.0
-  docker2: ^2.1.0
+  dcli_core: ^0.0.4
+  docker2: ^2.1.2
+  meta: ^1.7.0
   mongo_dart: ^0.7.4
   path: ^1.8.0
   settings_yaml: ^3.3.1
-  test: ^1.19.5
   unpub: ^2.0.0
+  yaml: ^3.1.0
 dev_dependencies: 
   lints: ^1.0.0
+  test: ^1.19.5
+executables: 
+  unpubd: 
+  unpub: 

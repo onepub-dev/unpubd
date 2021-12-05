@@ -4,6 +4,7 @@ import 'package:args/command_runner.dart';
 import 'package:dcli/dcli.dart';
 
 import 'commands/config.dart';
+import 'commands/doctor.dart';
 import 'commands/down.dart';
 import 'commands/install.dart';
 import 'commands/pull.dart';
@@ -49,9 +50,6 @@ You can alter the config by running 'unpubd config' or by modifying ~/.unpubd/un
             'when using the console to log.');
     runner.argParser.addOption('logfile',
         abbr: 'l', help: 'If set all output is sent to the provided logifile');
-    runner.argParser.addFlag('insecure',
-        help:
-            'Should only be used during testing. When set, the hash files can be read/written by any user');
     runner.argParser.addFlag('quiet',
         abbr: 'q',
         help: "Don't output each directory scanned just "
@@ -67,7 +65,8 @@ You can alter the config by running 'unpubd config' or by modifying ~/.unpubd/un
       ..addCommand(InstallCommand())
       ..addCommand(PullCommand())
       ..addCommand(ResetCommand())
-      ..addCommand(RunCommand());
+      ..addCommand(RunCommand())
+      ..addCommand(DoctorCommand());
   }
 
   void parse() {
@@ -80,7 +79,6 @@ You can alter the config by running 'unpubd config' or by modifying ~/.unpubd/un
       exit(0);
     }
 
-    secureMode = results['insecure'] as bool == false;
     quiet = results['quiet'] as bool == true;
     colour = results['colour'] as bool == true;
 

@@ -14,6 +14,7 @@ import 'dart:io';
 import 'package:args/command_runner.dart';
 import 'package:dcli/dcli.dart';
 
+import '../env_file.dart';
 import '../unpubd_paths.dart';
 import '../unpubd_settings.dart';
 import '../util/log.dart';
@@ -39,10 +40,20 @@ class PullCommand extends Command<void> {
     pull();
   }
 
-
-  Future<void> pull() async {
+  static void pull() {
+    EnvFile.create();
     print('Pulling the latest docker containers');
     'docker-compose pull'
         .start(workingDirectory: dirname(UnpubdPaths().pathToDockerCompose));
+
+    // final images = Images().findAllByName('noojee/unpubd');
+
+    // if (images.isEmpty) {
+    //   printerr(
+    //       red('Somethi  ng went wrong! Unable to find the "unpubd" image'));
+    //   exit(1);
+    // }
+
+    // print('Pulled unpubd version: ${container.image!.fullname}');
   }
 }

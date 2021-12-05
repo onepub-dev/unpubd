@@ -18,13 +18,15 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
     volumes:
       - mongodata:/data/db 
+      - #PATH_TO_INITDB#:/docker-entrypoint-initdb.d/
     networks:
       - unpubd
-    ports:
-      - 27017:27017      
+# use if we need to connect directly to Mongo from host. ONLY FOR TESTING
+#    ports:
+#      - 27017:27017      
 
     logging:
-      driver: "journald"
+      driver: "local"
 
   unpubd:
     container_name: unpubd
@@ -33,13 +35,13 @@ services:
     depends_on:
       - mongodb
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      MONGO_DATABASE: ${MONGO_DATABASE}
+      MONGO_HOST: ${MONGO_HOST}
+      MONGO_PORT: ${MONGO_PORT}
       UNPUBD_PORT: ${UNPUBD_PORT}
       TZ: ${TZ}
-    volumes:
-      - mongodata:/data/db 
     links:
       - mongodb
     networks:
@@ -47,6 +49,6 @@ services:
     ports:
       - ${UNPUBD_PORT}:${UNPUBD_PORT}
     logging:
-      driver: "journald"      
+      driver: "local"      
 
       

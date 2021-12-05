@@ -22,29 +22,51 @@ class ResetCommand extends Command<void> {
 
   @override
   void run() {
-    RunArgs().parse(argResults!);
+    print(
+        red('Proceeding will delete the Mongo DB and all existing packages!'));
+    if (!confirm(red('Are you sure? '))) {
+      exit(0);
+    }
 
-    waitForEx<void>(_reset());
+    final mongoVolumes = deleteContainer('mongo');
+    final unpudVolumes = deleteContainer('unpubd');
+
+    /// container so delete volume by name.
+    final volume = Volumes().findByName('unpubd_mongodata');
+    if (volume != null) {
+      volume.delete();
+      print('Volume ${volume.name} deleted');
+    }
+
+    /// incase there were any other volumes attached
+    /// lets delete them too.
+    deleteVolumes(mongoVolumes);
+    deleteVolumes(unpudVolumes);
   }
 
-  Future<void> _reset() async {
-    if (!confirm('Are you sure? '
-        'Proceeding will delete the Mongo DB and all existing packages!')) {
-      exit(0);
-    }
-    final container = Docker().findContainerByName('unpubd');
-    if (container == null) {
-      printerr(red('Unable to find the unpubd container '
-          'which should be called unpubd'));
-      exit(0);
-    }
-
-    final volumes = container.volumes;
+  void deleteVolumes(List<Volume> volumes) {
     for (final volume in volumes) {
       if (!confirm('Delete volume ${volume.name}?')) {
         volume.delete();
         print('Volume ${volume.name} deleted');
       }
     }
+  }
+
+  List<Volume> deleteContainer(String name) {
+    final container = Docker().findContainerByName(name);
+    var volumes = <Volume>[];
+    if (container != null) {
+      volumes = container.volumes;
+      print('Stopping $name');
+      container.stop();
+      while (container.isRunning) {
+        sleep(5);
+        echo('.');
+      }
+      print('Deleting $name');
+      container.delete();
+    }
+    return volumes;
   }
 }
