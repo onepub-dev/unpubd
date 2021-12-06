@@ -91,6 +91,39 @@ The unpub command dynamically sets the PUB_HOSTED_URL and then calls dart pub wi
 
 This approach has the advantage in that if you need to revert to using pub.dev you can just revert to using dart pub/flutter pub  and you don't have to create any environment variables.
 
+## Publishing to unpubd
+To publish your packages to unpubd (rather than pub.dev) you need to add a 'publish_to' key to your packages pubspec.yaml.
+
+```yaml
+name: dcli
+description: Dart console SDK
+version: 1.0.0
+repository: https://github.com/noojee/dcli
+homepage: dcli.noojee.dev
+
+publish_to: http://your-unpubd-server.com
+```
+
+Now when you run `pub publish` for your package it will be published to your unpubd server.
+
+## Added dependencies
+If you run dart pub with the PUB_HOSTED_URL or unpub then pub will automatically try to pull  dependencies from unpubd.
+
+However you can also ensure that your package dependencies are always pulled from unpubd by altering the dependency in pubspec.yaml to a 'hosted' dependency.
+
+```yaml
+dependencies:
+  dcli:
+    hosted:
+      url: http://your-unpubd-server.com
+      version: ˆ1.0.0
+```      
+
+This technique is also useful if you are preparing a PR for a public package.
+You can first publish it to your unpubd server and test it internally before pushing the PR.
+
+I find this particularly useful while you are waiting for a public package to accept and publish your PR.
+
 # unpubd Commands
 unpubd suports a number of commands
 
