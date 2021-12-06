@@ -179,6 +179,19 @@ If you need to force a full rebuild of the docker container use:
 tool\build.dart --clean
 ```
 
+# Diagnosing problems.
+If you are having problems accessing your unpubd server here are a few things you can try.
+
+1) To see the status of your unpubd service.
+
+    Run: `unpubd doctor`
+
+ 2) Check the logs
+
+    ```
+    docker logs unpubd
+    docker logs mongo
+    ```
 
 
 
