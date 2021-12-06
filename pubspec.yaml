@@ -1,5 +1,5 @@
 name: unpubd
-version: 0.0.7
+version: 0.0.8
 homepage: https://github.com/bsutton/unpubd
 description: Self hosted Dart Pub Server. Host your enterprise Dart packages internally using the same web interface and tools as pub.dev.
 repository: https://github.com/bsutton/unpubd
