@@ -10,7 +10,7 @@ volumes:
 services:
   mongodb:
     container_name: mongo
-    image: mongo:latest
+    image: mongo:5.0.13
     restart: on-failure
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
