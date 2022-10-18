@@ -13,6 +13,27 @@ Unpubd also acts as local proxy for pub.dev.
 
 To use unpubd you can either use the unpub command in place of 'dart pub' or set up an environment variable PUB_HOSTED_URL which will cause dart pub to use your local repository.
 
+# Sponsored by OnePub
+Unpubd was created by the [OnePub](https://onepub.dev) team.
+
+If you don't want to roll your own private repository then OnePub provides a SAAS solution
+with a generous free tier.
+
+OnePub allows you to privately share dart packages between your own projects or with colleagues.
+Try it for free and publish your first private package in seconds.
+
+## Publish a private package in six commands:
+
+```bash
+dart pub global activate onepub
+onepub login
+dart create mytool
+cd mytool
+onepub pub private
+dart pub publish
+```
+
+See the OnePub blog on [publishing your first package.](https://onepub.dev/show/71ddbfcc-209c-48e1-9afd-d30f54016a7a)
 
 # Installation
 
@@ -59,6 +80,8 @@ unpubd stop
 # Using unpubd
 
 The pub get/outdated/upgrade/publish commands all interact with pub.dev
+
+See the OnePub blog on [publishing your first package.](https://onepub.dev/show/71ddbfcc-209c-48e1-9afd-d30f54016a7a) Whilst it is written for OnePub it also covers of the basics of publishing a package.
 
 Note: both `flutter pub` and `dart pub`  work the with the same changes desribed below.
 
