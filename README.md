@@ -22,6 +22,10 @@ with a generous free tier.
 OnePub allows you to privately share dart packages between your own projects or with colleagues.
 Try it for free and publish your first private package in seconds.
 
+> Note: 
+> If you try the beta and send me a note with your thoughts, via the 'Contact OnePub' link on the home page and mention unpubd, I will organise you a free upgrade to 5 pro seats, which might fix your unpubd problem ;)
+
+FYI: we still plan on supporting unpubd.
 ## Publish a private package in six commands:
 
 ```bash
